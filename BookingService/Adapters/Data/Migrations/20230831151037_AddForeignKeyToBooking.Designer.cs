@@ -3,6 +3,7 @@ using System;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    partial class HotelDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230831151037_AddForeignKeyToBooking")]
+    partial class AddForeignKeyToBooking
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -107,57 +110,6 @@ namespace Data.Migrations
                     b.Navigation("Guest");
 
                     b.Navigation("Room");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Guest", b =>
-                {
-                    b.OwnsOne("Domain.ValueObjects.PersonId", "DocumentId", b1 =>
-                        {
-                            b1.Property<int>("GuestId")
-                                .HasColumnType("int");
-
-                            b1.Property<int>("DocumentType")
-                                .HasColumnType("int");
-
-                            b1.Property<string>("IdNumber")
-                                .IsRequired()
-                                .HasColumnType("longtext");
-
-                            b1.HasKey("GuestId");
-
-                            b1.ToTable("Guests");
-
-                            b1.WithOwner()
-                                .HasForeignKey("GuestId");
-                        });
-
-                    b.Navigation("DocumentId")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Domain.Entities.Room", b =>
-                {
-                    b.OwnsOne("Domain.ValueObjects.Price", "Price", b1 =>
-                        {
-                            b1.Property<int>("RoomId")
-                                .HasColumnType("int");
-
-                            b1.Property<int>("Currency")
-                                .HasColumnType("int");
-
-                            b1.Property<decimal>("Value")
-                                .HasColumnType("decimal(65,30)");
-
-                            b1.HasKey("RoomId");
-
-                            b1.ToTable("Rooms");
-
-                            b1.WithOwner()
-                                .HasForeignKey("RoomId");
-                        });
-
-                    b.Navigation("Price")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
